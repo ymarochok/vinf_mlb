@@ -86,81 +86,6 @@ Stránky mimo týchto šablón sa nespracujú ako hráčske biografie.
 REGEX čistenie podporuje bežné odkazy, referencie a vnorené šablóny; nie je to úplný MediaWiki renderer.
 Hodnoty z Wikidata, ktoré nie sú priamo vo wikitexte, nezískavam.
 
-## Čo ukázať na konzultácii
-
-Vo `showcase.py` sú dostupné SQL views s rovnakými menami ako nižšie.
-
-```python
-# Počet hráčov, počet pripojených unikátnych wiki stránok a pokrytie.
-spark.sql("SELECT * FROM join_stats").show(truncate=False)
-
-# Počet všetkých stránok exportovaných zo vstupného XML dumpu.
-spark.sql("SELECT * FROM wiki_stats").show(truncate=False)
-spark.sql("SELECT wiki_page_id, wiki_title, ns FROM wiki LIMIT 5").show()
-
-# Päť príkladov spojenia: meno, MLB dátum narodenia a pravidlo zhody.
-spark.sql("""SELECT player_id, name, birth_date, wiki_page_id,
-             wiki_title, match_method
-             FROM players_enriched WHERE wiki_page_id IS NOT NULL
-             ORDER BY name LIMIT 5""").show(truncate=False)
-
-# Nové atribúty, ktoré môžu obohatiť budúce vyhľadávanie.
-spark.sql("""SELECT name, wiki_teams, wiki_highlights, wiki_categories
-             FROM players_enriched WHERE wiki_page_id IS NOT NULL
-             ORDER BY name LIMIT 5""").show(truncate=100)
-
-# Počet neprázdnych wiki atribútov medzi spojenými hráčmi.
-spark.sql("""SELECT count(wiki_teams) AS teams, count(wiki_highlights) AS highlights,
-             count(wiki_categories) AS categories FROM players_enriched
-             WHERE wiki_page_id IS NOT NULL""").show()
-
-spark.sql("SELECT * FROM player_errors").show(truncate=False)
-spark.sql("SELECT * FROM ambiguous LIMIT 10").show(truncate=False)
-```
-
-Spark UI je na adrese vypísanej v konzole (zvyčajne `http://localhost:4040`) počas behu procesu.
-Tam možno ukázať jobs, stages, úlohy a SQL plán. `exit()` ukončí interaktívnu ukážku.
-
-## Výstupy
-
-| `part2/output/` | Obsah |
-| --- | --- |
-| `players/` | 17 pôvodných atribútov + cesta k HTML a MLB URL. Pôvodné hodnoty sú stringy, chýbajúce hodnoty sú null. |
-| `player_errors/` | Cesty a vysvetlenia neúspešnej extrakcie. |
-| `wiki/` | Všetky stránky dumpu: ID, titulok, namespace, cieľ redirectu, ID revízie a surový wikitext. Bez filtrovania. |
-| `players_enriched/` | Iba MLB hráči s jednoznačnou wiki zhodou, wiki atribúty vrátane `wiki_description` + pravidlo spojenia. Wiki dátum narodenia sa používa iba na zhodu; vo výsledku ostáva len MLB `birth_date`. |
-| `ambiguous/` | Odmietnuté nejednoznačné dvojice. Počet nepripojených hráčov je v `join_stats`. |
-| `wiki_stats/`, `join_stats/` | Malé JSON výstupy s reálne vypočítanými počtami. |
-
-`unique_wiki_pages` sa počíta cez **countDistinct(wiki_page_id)**, samostatne od počtu pripojených hráčov.
-Výstupy sú Spark adresáre s part súbormi; opakovaný beh danej fázy prepíše jej výstupy.
-Načítané MLB HTML sa v prvej fáze dočasne držia len ako extrahované riadky cez `DISK_ONLY`, nie ako celý 16 GB obsah v pamäti.
-
-## Stav overenia v tejto relácii
-
-Implementácia je pripravená na spustenie, ale **celý Spark pipeline ani wiki JOIN tu ešte neboli spustené**.
-Relácia blokuje sieťové sťahovanie aj lokálne sockety potrebné pre Spark JVM (`Operation not permitted`).
-Preto tu nie je stiahnutý dump ani vymyslený počet pripojených stránok. Skutočné čísla vytvorí `join.py` po vyššie uvedených krokoch.
-
-Lokálne kontroly prešli: Python syntax, Bash syntax, nezmenená kópia extraktora, pôvodné testy na 20 náhodných MLB profiloch a známom chybnom profile; navyše 6 testov wiki extraktora, dátumov, normalizácie a wrappera na ďalších 20 reálnych profiloch.
-Dočasné testy sú mimo `part2`, v `/tmp/vinf-check/`.
-Na disku je 20 162 HTML súborov; pôvodný CSV obsahuje 20 161 unikátnych hráčov. Očakávaná chyba je profil `645261`. Sú to overené počty Part 1, nie výsledok nového Spark behu.
-
-## Alternatívny wiki vstup, spoločný JOIN a ukážka
-
-`join.py` aj `showcase.py` sú spoločné pre oba scenáre. Zmení sa iba adresár:
-
-```bash
-# Z adresára part2: otvorenie už pripraveného vývojového podvýberu.
-python showcase.py --wiki-dir wiki_fast/output
-# Rovnaká logika spojenia nad týmto podvýberom.
-python join.py --wiki-dir wiki_fast/output
-```
-
-Bez `--wiki-dir` sa používa pôvodný úplný export v `part2/output/`.
-Neukončené exporty sa kontrolujú cez `_SUCCESS` ešte pred spustením Sparku.
-Podrobnosti filtrovania celého dumpu aj vývojových limitov sú v `wiki_fast/README.md`.
-
 ## PyLucene: index nad všetkými hráčmi
 
 Nový vyhľadávač je v `lucene/`. Index obsahuje 20 161 hráčov z pôvodnej tabuľky
@@ -176,19 +101,4 @@ python part2/lucene/search.py
 
 Podrobný postup, syntax dotazov, zmena boostov, porovnanie s Part 1 a overenie
 sú v [lucene/README.md](lucene/README.md).
-
-## Zdroje
-
-- Oficiálny dump: https://dumps.wikimedia.org/enwiki/latest/
-- Spark 4.0.1 XML reader: https://spark.apache.org/docs/4.0.1/sql-data-sources-xml.html
-- Wikipedia text: CC BY-SA; výstup zachováva názov, odkaz na článok a ID revízie.
-
-## Full-dump memory configuration
-
-The full wiki export can exhaust the default vectorized Parquet reader on large
-text batches. The shared Spark session disables that reader and defaults to two
-local tasks. `join.py` scans REGEX identity fields first, broadcasts the small MLB
-key table, rejects ambiguous matches, and extracts full biographies only for
-accepted wiki IDs in a second read. It never caches all wiki article bodies.
-Only candidates and the small joined result are persisted; joined descriptions
-use DISK_ONLY storage. Match rules and final columns are unchanged.
+DISK_ONLY storage. Match rules and final columns are unchanged.
