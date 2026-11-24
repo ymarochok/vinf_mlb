@@ -1,0 +1,43 @@
+===== Štatistiky dát – namerané =====
+^ Metrika ^ Hodnota ^
+| HTML profily | 20162 |
+| Unikátne číselné adresáre | 20162 |
+| Súbory metadata.json | 20162 |
+| HTML veľkosť | 15058.43 MiB (15,789,911,135 B) |
+| page.txt veľkosť | 103.69 MiB (108,723,967 B) |
+| stored_players celkovo | 15170.03 MiB (15,906,930,333 B) |
+| CSV záznamy | 20161 |
+| CSV unikátne player_id | 20161 |
+| CSV veľkosť | 2.81 MiB (2,943,828 B) |
+| Zlyhania / duplicity | 1 |
+| Potenciálne relevantné (ID + meno) | 20161 |
+| Index termíny | 19170 |
+| Postings | 215007 |
+| indexes.json veľkosť | 2.47 MiB (2,586,539 B) |
+| Tokeny page.txt (cl100k_base) | 45677419 |
+| Tokeny CSV polí (cl100k_base) | 936499 |
+| Tokeny surového HTML (cl100k_base) | __________ |
+| Stav crawlera (crawl_state.json) | spracovaných stránok: 1520; URL vo fronte: 0 |
+
+**Poznámka:** Tokeny sa sčítavajú zvlášť za každý dokument. Text=viditeľný obsah page.txt; CSV=neprázdne polia bez ID; HTML=zdrojový kód vrátane skriptov. Tieto hodnoty sa nedajú navzájom zamieňať.
+**Relevantnosť:** ako automatický odhad používame záznamy s neprázdnym ID a menom, nie manuálnu kontrolu správnosti.
+
+===== Úplnosť polí =====
+^ Pole ^ Vyplnené ^ Prázdne ^
+| player_id | 20161 | 0 |
+| name | 20161 | 0 |
+| full_name | 20130 | 31 |
+| nickname | 4656 | 15505 |
+| birth_date | 19378 | 783 |
+| birthplace | 19291 | 870 |
+| death_date | 10763 | 9398 |
+| debut_date | 19830 | 331 |
+| position_code | 20161 | 0 |
+| bats | 18229 | 1932 |
+| throws | 18229 | 1932 |
+| height | 19204 | 957 |
+| weight_lb | 19204 | 957 |
+| last_played_year | 20161 | 0 |
+| last_associated_team | 19789 | 372 |
+| is_active | 20161 | 0 |
+| teams_from_transactions | 1878 | 18283 |

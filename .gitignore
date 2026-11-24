@@ -1,0 +1,70 @@
+# Only project directories and publication/setup files at the repository root.
+# Unrelated new top-level files/folders stay ignored unless explicitly allowed.
+/*
+!/.gitignore
+!/.gitattributes
+!/.github/
+!/part1/
+!/part2/
+!/build-pylucene/
+!/tests/
+!/docs/
+!/README*
+!/LICENSE*
+!/requirements*.txt
+!/pyproject.toml
+!/uv.lock
+
+# Python environments and generated files
+.venv*/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Crawled HTML, metadata and text corpora (all crawler versions)
+stored_players/
+
+# Wikipedia downloads, Spark tables, Lucene exports and binary indexes
+/part2/input/
+/part2/output/
+/part2/wiki_fast/input/
+/part2/wiki_fast/output/
+/part2/lucene/data/
+/part2/lucene/index/
+/part2/backups/
+
+# Retired development subset and superseded Part 1 artifacts
+/part2/wiki_fast/
+/part1/index.json
+/part1/complex_extractor.py
+/part1/extractor.py
+/part1/player.csv
+/part1/indexer_config.json
+
+# PyLucene/JCC source archives and compilation output; retain setup helpers
+/build-pylucene/*
+!/build-pylucene/env.sh
+!/build-pylucene/env.fish
+*.whl
+*.tar.gz
+*.tgz
+*.bz2
+*.parquet
+*.so
+*.o
+*.class
+
+# Spark runtime directories and logs
+artifacts/
+spark-warehouse/
+metastore_db/
+derby.log
+*.log
+*.part
+
+# Keep small CSV/JSON reference data and Markdown reports: Part 1 comparison
+# needs players.csv, indexes.json and players_data.json.

@@ -1,0 +1,7 @@
+input/
+output/
+__pycache__/
+artifacts/
+spark-warehouse/
+derby.log
+metastore_db/

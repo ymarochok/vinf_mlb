@@ -1,0 +1,101 @@
+===== Päť reálnych ukážok extrahovaných hráčov =====
+==== Ukážka 1: Hank Aaron ====
+**Zdrojová URL:** https://www.mlb.com/player/hank-aaron-110001
+^ Atribút ^ Hodnota ^
+| player_id | 110001 |
+| name | Hank Aaron |
+| full_name | Henry Louis Aaron |
+| nickname | Hammerin' Hank |
+| birth_date | 1934-02-05 |
+| birthplace | Mobile, AL |
+| death_date | 2021-01-22 |
+| debut_date | 1954-04-13 |
+| position_code | RF |
+| bats | Right |
+| throws | Right |
+| height | 6'0" |
+| weight_lb | 180 |
+| last_played_year | 1976 |
+| last_associated_team | Milwaukee Brewers |
+| is_active | false |
+| teams_from_transactions |  |
+==== Ukážka 2: Tommie Aaron ====
+**Zdrojová URL:** https://www.mlb.com/player/tommie-aaron-110002
+^ Atribút ^ Hodnota ^
+| player_id | 110002 |
+| name | Tommie Aaron |
+| full_name | Tommie Lee Aaron |
+| nickname |  |
+| birth_date | 1939-08-05 |
+| birthplace | Mobile, AL |
+| death_date | 1984-08-16 |
+| debut_date | 1962-04-10 |
+| position_code | 1B |
+| bats | Right |
+| throws | Right |
+| height | 6'1" |
+| weight_lb | 200 |
+| last_played_year | 1971 |
+| last_associated_team | Atlanta Braves |
+| is_active | false |
+| teams_from_transactions |  |
+==== Ukážka 3: Don Aase ====
+**Zdrojová URL:** https://www.mlb.com/player/don-aase-110003
+^ Atribút ^ Hodnota ^
+| player_id | 110003 |
+| name | Don Aase |
+| full_name | Donald William Aase |
+| nickname |  |
+| birth_date | 1954-09-08 |
+| birthplace | Orange, CA |
+| death_date |  |
+| debut_date | 1977-07-26 |
+| position_code | P |
+| bats | Right |
+| throws | Right |
+| height | 6'3" |
+| weight_lb | 210 |
+| last_played_year | 1990 |
+| last_associated_team | Los Angeles Dodgers |
+| is_active | false |
+| teams_from_transactions |  |
+==== Ukážka 4: Ed Abbaticchio ====
+**Zdrojová URL:** https://www.mlb.com/player/ed-abbaticchio-110005
+^ Atribút ^ Hodnota ^
+| player_id | 110005 |
+| name | Ed Abbaticchio |
+| full_name | Edward James Abbaticchio |
+| nickname | Batty |
+| birth_date | 1877-04-15 |
+| birthplace | Latrobe, PA |
+| death_date | 1957-01-06 |
+| debut_date | 1897-09-04 |
+| position_code | 2B |
+| bats | Right |
+| throws | Right |
+| height | 5'11" |
+| weight_lb | 170 |
+| last_played_year | 1910 |
+| last_associated_team | Atlanta Braves |
+| is_active | false |
+| teams_from_transactions |  |
+==== Ukážka 5: Bert Abbey ====
+**Zdrojová URL:** https://www.mlb.com/player/bert-abbey-110006
+^ Atribút ^ Hodnota ^
+| player_id | 110006 |
+| name | Bert Abbey |
+| full_name | Bert Wood Abbey |
+| nickname |  |
+| birth_date | 1869-11-29 |
+| birthplace | Essex, VT |
+| death_date | 1962-06-11 |
+| debut_date | 1892-06-14 |
+| position_code | P |
+| bats | Right |
+| throws | Right |
+| height | 5'11" |
+| weight_lb | 175 |
+| last_played_year | 1896 |
+| last_associated_team | Los Angeles Dodgers |
+| is_active | false |
+| teams_from_transactions |  |
